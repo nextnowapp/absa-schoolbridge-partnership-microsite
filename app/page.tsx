@@ -589,48 +589,50 @@ export default function Home() {
 
           <Reveal delay={0.2}>
             <style>{`
-              .fab-wrap { border-radius:16px; border:1px solid rgba(7,26,47,0.1); overflow:hidden; background:#fff; }
-              .fab-head { display:grid; grid-template-columns:1fr 1fr 1fr; background:#071A2F; }
-              .fab-head span { font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#F5A623; padding:16px 24px; }
-              .fab-row { display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid rgba(7,26,47,0.06); }
-              .fab-row:last-child { border-bottom:none; }
-              .fab-cell { padding:20px 24px; }
-              .fab-cell .lbl { display:none; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#A6192E; margin-bottom:6px; }
-              .fab-feature { font-size:14px; color:#1F2933; line-height:1.6; font-weight:500; }
-              .fab-adv { font-size:13px; color:#4A5568; line-height:1.6; }
-              .fab-ben { font-size:13px; color:#1F2933; line-height:1.6; display:flex; gap:8px; align-items:flex-start; }
-              @media (max-width: 760px) {
-                .fab-head { display:none; }
-                .fab-row { grid-template-columns:1fr; border-bottom:8px solid #F4F6F8; background:#fff !important; }
-                .fab-cell { padding:14px 20px; }
-                .fab-cell:not(:last-child) { border-bottom:1px solid rgba(7,26,47,0.05); }
-                .fab-cell .lbl { display:block; }
-              }
+              .fab-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:16px; border:1px solid rgba(7,26,47,0.1); }
+              .fab-table { width:100%; min-width:760px; border-collapse:collapse; background:#fff; }
+              .fab-hint { display:none; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; color:#A6192E; margin-top:14px; text-align:center; }
+              @media (max-width:760px){ .fab-hint{ display:block; } }
             `}</style>
-            <div className="fab-wrap">
-              <div className="fab-head">
-                <span>Feature</span><span>Advantage</span><span>Benefit</span>
-              </div>
-              {FAB_ROWS.map((row, i) => (
-                <div className="fab-row" key={i} style={{ background: i % 2 === 0 ? '#fff' : '#F9FAFB' }}>
-                  <div className="fab-cell">
-                    <div className="lbl">Feature</div>
-                    <div className="fab-feature">{row.feature}</div>
-                  </div>
-                  <div className="fab-cell">
-                    <div className="lbl">Advantage</div>
-                    <div className="fab-adv">{row.advantage}</div>
-                  </div>
-                  <div className="fab-cell">
-                    <div className="lbl">Benefit</div>
-                    <div className="fab-ben">
-                      <CheckCircle size={14} color="#A6192E" style={{ flexShrink: 0, marginTop: '2px' }} />
-                      {row.benefit}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="fab-scroll">
+              <table className="fab-table">
+                <thead>
+                  <tr style={{ background: '#071A2F' }}>
+                    {['Feature', 'Advantage', 'Benefit'].map((col) => (
+                      <th key={col} style={{
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.1em',
+                        color: '#F5A623', padding: '16px 24px', textAlign: 'left',
+                      }}>
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {FAB_ROWS.map((row, i) => (
+                    <tr key={i} style={{
+                      background: i % 2 === 0 ? '#fff' : '#F9FAFB',
+                      borderBottom: i < FAB_ROWS.length - 1 ? '1px solid rgba(7,26,47,0.06)' : 'none',
+                    }}>
+                      <td style={{ padding: '20px 24px', fontSize: '14px', color: '#1F2933', lineHeight: 1.6, fontWeight: 500, minWidth: '220px', verticalAlign: 'top' }}>
+                        {row.feature}
+                      </td>
+                      <td style={{ padding: '20px 24px', fontSize: '13px', color: '#4A5568', lineHeight: 1.6, minWidth: '230px', verticalAlign: 'top' }}>
+                        {row.advantage}
+                      </td>
+                      <td style={{ padding: '20px 24px', fontSize: '13px', color: '#1F2933', lineHeight: 1.6, minWidth: '280px', verticalAlign: 'top' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                          <CheckCircle size={14} color="#A6192E" style={{ flexShrink: 0, marginTop: '2px' }} />
+                          {row.benefit}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+            <div className="fab-hint">← swipe to see benefits →</div>
           </Reveal>
         </div>
       </section>
